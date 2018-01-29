@@ -44,7 +44,7 @@ namespace QuantConnect.Queues
         private readonly Language Language = (Language)Enum.Parse(typeof(Language), Config.Get("algorithm-language"));
 
         /// <summary>
-        /// Physical location of Algorithm DLL.
+        /// Physical location of Algorithm DLL. 
         /// </summary>
         private string AlgorithmLocation
         {
@@ -125,6 +125,7 @@ namespace QuantConnect.Queues
             }
 
             //Default run a backtesting job.
+            var idGenerator = new AlgorithmIdGenerator();
             var backtestJob = new BacktestNodePacket(0, 0, "", new byte[] {}, 10000, "local")
             {
                 Type = PacketType.BacktestNode,
@@ -134,7 +135,7 @@ namespace QuantConnect.Queues
                 UserId = UserId,
                 ProjectId = ProjectId,
                 Version = Globals.Version,
-                BacktestId = AlgorithmTypeName,
+                BacktestId = string.Format("{0}__{1}", AlgorithmTypeName, idGenerator.GenerateUnique()),
                 Language = Language,
                 Parameters = parameters,
                 Controls = controls

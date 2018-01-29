@@ -178,6 +178,7 @@
     <Compile Include="OrderTicketDemoAlgorithm.cs" />
     <Compile Include="WeeklyUniverseSelectionRegressionAlgorithm.cs" />
     <Compile Include="OptionChainProviderAlgorithm.cs" />
+    <Compile Include="QCUMovingAverageCross.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Algorithm.Framework\QuantConnect.Algorithm.Framework.csproj">

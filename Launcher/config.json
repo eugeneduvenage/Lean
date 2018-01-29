@@ -6,10 +6,10 @@
   // two predefined environments, 'backtesting' and 'live', feel free
   // to add more!
 
-  "environment": "backtesting", // "live-paper", "backtesting", "live-interactive", "live-interactive-iqfeed"
+  "environment": "backtesting-desktop", // "live-paper", "backtesting", "live-interactive", "live-interactive-iqfeed"
 
   // algorithm class selector
-  "algorithm-type-name": "BasicTemplateFrameworkAlgorithm",
+  "algorithm-type-name": "QCUMovingAverageCross",
 
   // Algorithm language selector - options CSharp, FSharp, VisualBasic, Python, Java
   "algorithm-language": "CSharp",
@@ -229,11 +229,11 @@
       "data-feed-handler": "QuantConnect.Lean.Engine.DataFeeds.FileSystemDataFeed",
       "real-time-handler": "QuantConnect.Lean.Engine.RealTime.BacktestingRealTimeHandler",
       "transaction-handler": "QuantConnect.Lean.Engine.TransactionHandlers.BacktestingTransactionHandler",
+      "messaging-handler": "QuantConnect.DesktopServer.DesktopLeanManagerMessagingHandler",
       "log-handler": "QuantConnect.Logging.QueueLogHandler",
-      "desktop-http-port": "1234",
-      "desktop-http-hostname": "localhost",
-      "desktop-http-protocol": "http",
-      "lean-manager-type": "QuantConnect.Views.DesktopLeanManager"
+      "desktop-http-port": "5558",
+      "lean-manager-type": "QuantConnect.DesktopServer.DesktopLeanManager",
+      "desktop-exe": "../../../DesktopServer/bin/Debug/QuantConnect.DesktopServer.exe"
     },
 
     // defines the 'live-desktop' environment

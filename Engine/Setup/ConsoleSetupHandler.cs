@@ -155,7 +155,8 @@ namespace QuantConnect.Lean.Engine.Setup
                     //Construct the backtest job packet:
                     backtestJob.PeriodStart = algorithm.StartDate;
                     backtestJob.PeriodFinish = algorithm.EndDate;
-                    backtestJob.BacktestId = algorithm.GetType().Name;
+                    Log.Trace("**************" + baseJob.AlgorithmId);
+                    backtestJob.BacktestId = baseJob.AlgorithmId;
                     backtestJob.Type = PacketType.BacktestNode;
                     backtestJob.UserId = baseJob.UserId;
                     backtestJob.Channel = baseJob.Channel;

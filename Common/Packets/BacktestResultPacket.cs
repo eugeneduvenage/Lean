@@ -139,6 +139,7 @@ namespace QuantConnect.Packets
                 {
                     TypeNameHandling = TypeNameHandling.Auto
                 });
+                Log.Trace("***********" + packet.BacktestId);
                 CompileId           = packet.CompileId;
                 Channel             = packet.Channel;
                 PeriodFinish        = packet.PeriodFinish;
@@ -174,6 +175,7 @@ namespace QuantConnect.Packets
         {
             try
             {
+                Log.Trace("***********J" + job.BacktestId);
                 Progress = Math.Round(progress, 3);
                 SessionId = job.SessionId;
                 PeriodFinish = job.PeriodFinish;

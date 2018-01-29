@@ -130,6 +130,10 @@
       <Project>{C68BEEED-B0C0-4002-94D4-1E871133D02A}</Project>
       <Name>QuantConnect.Views</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DesktopServer\QuantConnect.DesktopServer.csproj">
+      <Project>{BC5CCD88-AA68-41E6-A21D-E7F5AB5CB873}</Project>
+      <Name>QuantConnect.DesktopServer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

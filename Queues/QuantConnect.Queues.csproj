@@ -52,6 +52,15 @@
     </Compile>
     <Compile Include="JobQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NameGenerator\Casing.cs" />
+    <Compile Include="NameGenerator\StringExtensions.cs" />
+    <Compile Include="NameGenerator\Word.cs" />
+    <Compile Include="NameGenerator\WordBank.cs" />
+    <Compile Include="NameGenerator\WordRepositories\AdjectivesRepository.cs" />
+    <Compile Include="NameGenerator\WordRepositories\AnimalNamesRepository.cs" />
+    <Compile Include="NameGenerator\WordRepositories\ColorNamesRepository.cs" />
+    <Compile Include="NameGenerator\WordRepositories\WordRepository.cs" />
+    <Compile Include="AlgorithmIdGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Configuration\QuantConnect.Configuration.csproj">
@@ -70,6 +79,9 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NameGenerator\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
