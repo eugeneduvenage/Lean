@@ -13,8 +13,10 @@ namespace QuantConnect.DesktopServer
             }
 
             var server = new DesktopLeanServer();
-            var serverData = new DesktopServerData();
-            server.Start(port, new DesktopLeanServerMessageHandler(serverData));
+            var backtestPersistanceManager = new DesktopBacktestPersistanceManager();
+            var existingBacktests = backtestPersistanceManager.LoadStoredBacktests();
+            var serverData = new DesktopServerData(existingBacktests);
+            server.Start(port, new DesktopLeanServerMessageHandler(serverData, backtestPersistanceManager));
             Console.WriteLine("Press any keys to terminate server.");
             Console.ReadKey();
             server.StopServer();

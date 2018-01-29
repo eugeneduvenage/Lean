@@ -67,10 +67,33 @@
     <Compile Include="IDesktopServerData.cs" />
     <Compile Include="Backtest.cs" />
     <Compile Include="DesktopServerData.cs" />
-    <Compile Include="JobPersistanceManager.cs" />
+    <Compile Include="DesktopBacktestPersistanceManager.cs" />
+    <Compile Include="IBacktestPersistanceManager.cs" />
+    <Compile Include="WebServer\AlgorithmsModule.cs" />
+    <Compile Include="WebServer\ChartsModule.cs" />
+    <Compile Include="WebServer\DesktopBootstrapper.cs" />
+    <Compile Include="WebServer\IndexModule.cs" />
+    <Compile Include="WebServer\OpenApiModule.cs" />
+    <Compile Include="WebServer\TradesModule.cs" />
+    <Compile Include="DesktopLeanWebServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="WebServer\open-api.yaml" />
+    <None Include="Assets\favicon.ico" />
+    <None Include="Assets\html\index.html" />
+    <None Include="Assets\openapi\favicon-16x16.png" />
+    <None Include="Assets\openapi\favicon-32x32.png" />
+    <None Include="Assets\openapi\index.html" />
+    <None Include="Assets\openapi\oauth2-redirect.html" />
+    <None Include="Assets\openapi\swagger-ui-bundle.js" />
+    <None Include="Assets\openapi\swagger-ui-bundle.js.map" />
+    <None Include="Assets\openapi\swagger-ui-standalone-preset.js" />
+    <None Include="Assets\openapi\swagger-ui-standalone-preset.js.map" />
+    <None Include="Assets\openapi\swagger-ui.css" />
+    <None Include="Assets\openapi\swagger-ui.css.map" />
+    <None Include="Assets\openapi\swagger-ui.js" />
+    <None Include="Assets\openapi\swagger-ui.js.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\QuantConnect.csproj">
@@ -101,6 +124,9 @@
       <Project>{12156F46-D07E-4E3D-AD2B-7409E82AB62F}</Project>
       <Name>QuantConnect.Lean.Engine</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="WebServer\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

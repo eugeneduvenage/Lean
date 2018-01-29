@@ -7,9 +7,17 @@ namespace QuantConnect.DesktopServer
     public class DesktopServerData : IDesktopServerData
     {
         private ConcurrentDictionary<string, BacktestData> _backTestData;
+
         public DesktopServerData()
+            : this(null)
         {
-            _backTestData = new ConcurrentDictionary<string, DesktopServer.BacktestData>();
+            
+        }
+
+        public DesktopServerData(IDictionary<string, BacktestData> existingBacktests)
+        {
+            _backTestData = (existingBacktests == null ? new ConcurrentDictionary<string, DesktopServer.BacktestData>() :
+                             new ConcurrentDictionary<string, DesktopServer.BacktestData>(existingBacktests));
         }
 
         public ConcurrentDictionary<string, BacktestData> BackTests 

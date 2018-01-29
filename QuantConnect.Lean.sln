@@ -56,7 +56,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantConnect.Algorithm.Fram
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantConnect.DesktopServer", "DesktopServer\QuantConnect.DesktopServer.csproj", "{BC5CCD88-AA68-41E6-A21D-E7F5AB5CB873}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "QuantConnect.VisualStudio17Plugin", "VisualStudioPlugin\QuantConnect.VisualStudio17Plugin.csproj", "{E318495F-B32A-4E39-99C5-F74E241D7E3E}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "QuantConnect.VisualStudio17Plugin", "VisualStudioPlugin\QuantConnect.VisualStudio17Plugin.csproj", "{D6D22F42-ACC2-4D1E-B5A8-B1B0117BA54B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -216,12 +216,12 @@ Global
 		{BC5CCD88-AA68-41E6-A21D-E7F5AB5CB873}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BC5CCD88-AA68-41E6-A21D-E7F5AB5CB873}.Release|x64.ActiveCfg = Release|Any CPU
 		{BC5CCD88-AA68-41E6-A21D-E7F5AB5CB873}.Release|x64.Build.0 = Release|Any CPU
-		{E318495F-B32A-4E39-99C5-F74E241D7E3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E318495F-B32A-4E39-99C5-F74E241D7E3E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E318495F-B32A-4E39-99C5-F74E241D7E3E}.Debug|x64.Build.0 = Debug|Any CPU
-		{E318495F-B32A-4E39-99C5-F74E241D7E3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E318495F-B32A-4E39-99C5-F74E241D7E3E}.Release|x64.ActiveCfg = Release|Any CPU
-		{E318495F-B32A-4E39-99C5-F74E241D7E3E}.Release|x64.Build.0 = Release|Any CPU
+		{D6D22F42-ACC2-4D1E-B5A8-B1B0117BA54B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6D22F42-ACC2-4D1E-B5A8-B1B0117BA54B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D6D22F42-ACC2-4D1E-B5A8-B1B0117BA54B}.Debug|x64.Build.0 = Debug|Any CPU
+		{D6D22F42-ACC2-4D1E-B5A8-B1B0117BA54B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6D22F42-ACC2-4D1E-B5A8-B1B0117BA54B}.Release|x64.ActiveCfg = Release|Any CPU
+		{D6D22F42-ACC2-4D1E-B5A8-B1B0117BA54B}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

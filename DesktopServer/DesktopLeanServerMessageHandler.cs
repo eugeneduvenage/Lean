@@ -6,9 +6,11 @@ namespace QuantConnect.DesktopServer
     public class DesktopLeanServerMessageHandler : IDesktopLeanMessageHandler
     {
         private IDesktopServerData _desktopServerData;
-        public DesktopLeanServerMessageHandler(IDesktopServerData desktopServerData)
+        private IBacktestPersistanceManager _persistanceManager;
+        public DesktopLeanServerMessageHandler(IDesktopServerData desktopServerData, IBacktestPersistanceManager persistanceManager)
         {
             _desktopServerData = desktopServerData;
+            _persistanceManager = persistanceManager;
         }
 
         public void Initialize(AlgorithmNodePacket job)
@@ -34,12 +36,9 @@ namespace QuantConnect.DesktopServer
 
             _desktopServerData.BackTests.AddOrUpdate(packet.BacktestId, backtest);
 
-            Console.WriteLine(packet.Progress);
             if(packet.Progress == 1) 
             {
-                Console.WriteLine("****** Backtest 100% ******");
-                var persistance = new JobPersistanceManager();
-                persistance.StoreBacktest(backtest);
+                _persistanceManager.StoreBacktest(backtest);
             }
         }
 
@@ -60,7 +59,6 @@ namespace QuantConnect.DesktopServer
             BacktestData backtest;
             _desktopServerData.BackTests.TryGetValue(packet.AlgorithmId, out backtest);
             backtest.Logs.Add(packet.Message);
-
             _desktopServerData.BackTests.AddOrUpdate(packet.AlgorithmId, backtest);
         }
 
