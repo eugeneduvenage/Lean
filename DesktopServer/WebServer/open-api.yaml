@@ -1,23 +1,16 @@
 ﻿openapi: 3.0.0
 info:
   description: QuantConnect Lean Desktop API
-  version: "1.0.0-oas3"
+  version: "1.0.1-oas3"
   title: Lean Desktop API
-tags:
-  - name: admins
-    description: Secured Admin-only calls
-  - name: developers
-    description: Operations available to regular developers
 paths:
   /api/algorithms:
     get:
-      tags:
-        - developers
       summary: retrieves the list of algorithms
       operationId: getAlgorithms
       description: |
         Retrieves the list of algorithms.
-    responses:
+      responses:
         '200':
           description: A collection of algorithms
           content:
@@ -26,12 +19,28 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AlgorithmItem'
+  /api/algorithms/{algorithmid}/backtests:
+    get:
+      parameters:
+        - in: path
+          name: algorithmid
+          description: algorithm class name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A collection of backtests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlgorithmItem'  
 components:
   schemas:
     AlgorithmItem:
       type: object
-      required:
-        - name
       properties:
         name:
           type: string

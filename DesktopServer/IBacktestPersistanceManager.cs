@@ -5,8 +5,8 @@ namespace QuantConnect.DesktopServer
 {
     public interface IBacktestPersistanceManager
     {
-        void StoreBacktest(BacktestData backtest);
+        void StoreBacktest(string algorithmClassName, IBacktestData backtest);
 
-        IDictionary<string, BacktestData> LoadStoredBacktests();
+        Dictionary<string, Dictionary<string, BacktestData>> LoadStoredBacktests();
     }
 }

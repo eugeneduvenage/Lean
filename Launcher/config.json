@@ -229,10 +229,9 @@
       "data-feed-handler": "QuantConnect.Lean.Engine.DataFeeds.FileSystemDataFeed",
       "real-time-handler": "QuantConnect.Lean.Engine.RealTime.BacktestingRealTimeHandler",
       "transaction-handler": "QuantConnect.Lean.Engine.TransactionHandlers.BacktestingTransactionHandler",
-      "messaging-handler": "QuantConnect.DesktopServer.DesktopLeanManagerMessagingHandler",
+      "messaging-handler": "QuantConnect.Messaging.DesktopMessaging",
       "log-handler": "QuantConnect.Logging.QueueLogHandler",
       "desktop-http-port": "5558",
-      "lean-manager-type": "QuantConnect.DesktopServer.DesktopLeanManager",
       "desktop-exe": "../../../DesktopServer/bin/Debug/QuantConnect.DesktopServer.exe"
     },
 
@@ -253,8 +252,7 @@
       "log-handler": "QuantConnect.Logging.QueueLogHandler",
       "desktop-http-port": "1234",
       "desktop-http-hostname": "localhost",
-      "desktop-http-protocol": "http",
-      "lean-manager-type": "QuantConnect.Views.DesktopLeanManager"
+      "desktop-http-protocol": "http"
     },
 
     "live-gdax": {

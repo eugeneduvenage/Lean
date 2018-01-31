@@ -1,4 +1,6 @@
 ﻿using System;
+using QuantConnect.DesktopServer.TcpServer;
+using QuantConnect.DesktopServer.WebServer;
 
 namespace QuantConnect.DesktopServer
 {
@@ -12,14 +14,18 @@ namespace QuantConnect.DesktopServer
                 port = args[0];
             }
 
-            var server = new DesktopLeanServer();
-            var backtestPersistanceManager = new DesktopBacktestPersistanceManager();
+            var tcpServer = new NetMQTcpServer();
+            var backtestPersistanceManager = new BacktestPersistanceManager();
             var existingBacktests = backtestPersistanceManager.LoadStoredBacktests();
-            var serverData = new DesktopServerData(existingBacktests);
-            server.Start(port, new DesktopLeanServerMessageHandler(serverData, backtestPersistanceManager));
+            var sharedServerData = new SharedServerData(existingBacktests);
+            var webServer = new NancyWebServer(sharedServerData);
+            tcpServer.Start(port, new LeanMessageHandler(sharedServerData, backtestPersistanceManager));
+            webServer.Start();
+
             Console.WriteLine("Press any keys to terminate server.");
             Console.ReadKey();
-            server.StopServer();
+            tcpServer.Stop();
+            webServer.Stop();
 }
     }
 }

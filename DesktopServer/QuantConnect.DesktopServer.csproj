@@ -59,29 +59,25 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DesktopLeanManager.cs" />
-    <Compile Include="DesktopLeanManagerMessagingHandler.cs" />
-    <Compile Include="DesktopLeanServer.cs" />
-    <Compile Include="IDesktopLeanMessageHandler.cs" />
-    <Compile Include="DesktopLeanServerMessageHandler.cs" />
-    <Compile Include="IDesktopServerData.cs" />
+    <Compile Include="ILeanMessageHandler.cs" />
+    <Compile Include="LeanMessageHandler.cs" />
+    <Compile Include="ISharedServerData.cs" />
     <Compile Include="Backtest.cs" />
-    <Compile Include="DesktopServerData.cs" />
-    <Compile Include="DesktopBacktestPersistanceManager.cs" />
+    <Compile Include="SharedServerData.cs" />
+    <Compile Include="BacktestPersistanceManager.cs" />
     <Compile Include="IBacktestPersistanceManager.cs" />
-    <Compile Include="WebServer\AlgorithmsModule.cs" />
-    <Compile Include="WebServer\ChartsModule.cs" />
     <Compile Include="WebServer\DesktopBootstrapper.cs" />
-    <Compile Include="WebServer\IndexModule.cs" />
-    <Compile Include="WebServer\OpenApiModule.cs" />
-    <Compile Include="WebServer\TradesModule.cs" />
-    <Compile Include="DesktopLeanWebServer.cs" />
+    <Compile Include="WebServer\Routes\AlgorithmsModule.cs" />
+    <Compile Include="WebServer\Routes\ChartsModule.cs" />
+    <Compile Include="WebServer\Routes\IndexModule.cs" />
+    <Compile Include="WebServer\Routes\TradesModule.cs" />
+    <Compile Include="WebServer\Routes\OpenApiModule.cs" />
+    <Compile Include="TcpServer\NetMQTcpServer.cs" />
+    <Compile Include="WebServer\NancyWebServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="WebServer\open-api.yaml" />
     <None Include="Assets\favicon.ico" />
-    <None Include="Assets\html\index.html" />
     <None Include="Assets\openapi\favicon-16x16.png" />
     <None Include="Assets\openapi\favicon-32x32.png" />
     <None Include="Assets\openapi\index.html" />
@@ -127,6 +123,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="WebServer\" />
+    <Folder Include="WebServer\Routes\" />
+    <Folder Include="TcpServer\" />
+    <Folder Include="Assets\js\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\html\index.html" />
+    <Content Include="WebServer\open-api.yaml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

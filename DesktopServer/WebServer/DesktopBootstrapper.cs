@@ -10,8 +10,8 @@ namespace QuantConnect.DesktopServer.WebServer
 {
     public class DesktopBootstrapper : DefaultNancyBootstrapper
     {
-        private IDesktopServerData _desktopServerData;
-        public DesktopBootstrapper(IDesktopServerData desktopServerData)
+        private ISharedServerData _desktopServerData;
+        public DesktopBootstrapper(ISharedServerData desktopServerData)
         {
             if(desktopServerData == null) 
             {
@@ -21,11 +21,10 @@ namespace QuantConnect.DesktopServer.WebServer
             _desktopServerData = desktopServerData;
         }
 
-        // protected override NancyInternalConfiguration InternalConfiguration => this.WithOpenApi(Conventions, ApplicationContainer);
         protected override void ApplicationStartup(Nancy.TinyIoc.TinyIoCContainer container, IPipelines pipelines)
         {
             base.ApplicationStartup(container, pipelines);
-            container.Register<IDesktopServerData>(_desktopServerData);
+            container.Register<ISharedServerData>(_desktopServerData);
         }
 
         protected override System.Collections.Generic.IEnumerable<Func<System.Reflection.Assembly, bool>> AutoRegisterIgnoredAssemblies
@@ -47,18 +46,19 @@ namespace QuantConnect.DesktopServer.WebServer
             base.ConfigureConventions(nancyConventions);
         }
 
-        //protected override IRootPathProvider RootPathProvider
-        //{
-        //    get { return new CustomRootPathProvider(); }
-        //}
+        protected override IRootPathProvider RootPathProvider
+        {
+            get { return new CustomRootPathProvider(); }
+        }
     }
 
-    //public class CustomRootPathProvider : IRootPathProvider
-    //{
-    //    public string GetRootPath()
-    //    {
-    //        var rootPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../UserInterface/"));
-    //        return rootPath;
-    //    }
-    //}
+    public class CustomRootPathProvider : IRootPathProvider
+    {
+        public string GetRootPath()
+        {
+            var rootPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../"));
+            Console.WriteLine("RTP: " + rootPath);
+            return rootPath;
+        }
+    }
 }
