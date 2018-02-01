@@ -1,0 +1,6 @@
+﻿{
+    "map-file-provider": "QuantConnect.Data.Auxiliary.LocalDiskMapFileProvider",
+     "environments": {
+
+    }
+}

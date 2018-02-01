@@ -11,10 +11,15 @@ using QuantConnect.Packets;
 
 namespace QuantConnect.DesktopServer.TcpServer
 {
-    public class NetMQTcpServer
+    public class NetMQTcpServer : IDisposable
     {
         private CancellationTokenSource _cancellationToken;
-        private Task socketTask;
+        private Task _socketTask;
+
+        public void Dispose()
+        {
+            _cancellationToken.Dispose();
+        }
 
         public void Start(string port, ILeanMessageHandler handler)
         {
@@ -36,7 +41,6 @@ namespace QuantConnect.DesktopServer.TcpServer
                     {
                         while (!token.IsCancellationRequested)
                         {
-                            Console.WriteLine(token.IsCancellationRequested);
                             var message = pullSocket.ReceiveMultipartMessage();
 
                             // There should only be 1 part messages
@@ -80,15 +84,9 @@ namespace QuantConnect.DesktopServer.TcpServer
                         }
                     }
                 }
-                catch (OperationCanceledException oex)
-                {
-                    Console.WriteLine("LOOP EXITING - Cancel");
-                    Console.WriteLine(oex.Message);
-                }
                 catch (ThreadAbortException tex)
                 {
-                    Console.WriteLine("LOOP EXITING - Abort");
-                    Console.WriteLine(tex.Message);
+                    Trace.WriteLine("TheadAborted due to cancellation - NetMQ Server stopped");
                 }
                 catch (Exception ex)
                 {
@@ -101,19 +99,14 @@ namespace QuantConnect.DesktopServer.TcpServer
                     
                 }
             };
-            this.socketTask = Task.Factory.StartNew(RunSocket, _cancellationToken.Token);
+            _socketTask = Task.Factory.StartNew(RunSocket, _cancellationToken.Token);
+
         }
 
         public void Stop()
         {
             Trace.WriteLine("Cancelling");
-            this._cancellationToken.Cancel();
-            if (!this.socketTask.IsCompleted)
-            {   
-                Console.WriteLine("Waiting");
-                //this.socketTask.Wait();
-            }
-            this._cancellationToken.Dispose();
+            _cancellationToken.Cancel();
         }
     }
 }

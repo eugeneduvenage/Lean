@@ -17,13 +17,11 @@ namespace QuantConnect.DesktopServer.WebServer
             var listenUrl = new Uri(string.Format("{0}://{1}:{2}", protocol, hostname, port));
             _webServer = new NancyHost(new DesktopBootstrapper(_sharedServerData), new Uri[] { listenUrl });
             _webServer.Start();
-            Console.WriteLine("Started Nancy");
         }
 
         public void Stop()
         {
             _webServer.Stop(); 
-            Console.WriteLine("Stopped Nancy");
         }
 
         public void Dispose()

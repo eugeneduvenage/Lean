@@ -90,6 +90,9 @@
     <None Include="Assets\openapi\swagger-ui.css.map" />
     <None Include="Assets\openapi\swagger-ui.js" />
     <None Include="Assets\openapi\swagger-ui.js.map" />
+    <None Include="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\QuantConnect.csproj">

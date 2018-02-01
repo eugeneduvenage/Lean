@@ -57,7 +57,6 @@ namespace QuantConnect.DesktopServer.WebServer
         public string GetRootPath()
         {
             var rootPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../"));
-            Console.WriteLine("RTP: " + rootPath);
             return rootPath;
         }
     }
