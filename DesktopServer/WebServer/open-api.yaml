@@ -6,13 +6,15 @@ info:
 paths:
   /api/algorithms:
     get:
-      summary: retrieves the list of algorithms
+      tags:
+        - backtests    
+      summary: retrieves the list of algorithms that are either currently running or have previously been saved.
       operationId: getAlgorithms
       description: |
-        Retrieves the list of algorithms.
+        Retrieves the list of algorithms for which a backtest is either currently running or has previously been saved.
       responses:
         '200':
-          description: A collection of algorithms
+          description: A collection of algorithms.
           content:
             application/json:
               schema:
@@ -21,22 +23,164 @@ paths:
                   $ref: '#/components/schemas/AlgorithmItem'
   /api/algorithms/{algorithmid}/backtests:
     get:
+      tags:
+        - backtests
+      summary: retrieves the list of backtests for a specific algorithm.      
+      operationId: getAlgorithmBacktests
+      description: |
+        Rretrieves the list of backtests that are either currently running or have previously been saved for a specific algorithm.
       parameters:
         - in: path
           name: algorithmid
-          description: algorithm class name
+          description: algorithm class type name.
           required: true
           schema:
             type: string
+          example: SMACross
       responses:
         '200':
-          description: A collection of backtests
+          description: A collection of backtests.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AlgorithmItem'  
+                  $ref: '#/components/schemas/BacktestItem'  
+        '400':
+          description: Error response when the algorithm id is not found.
+
+  /api/algorithms/{algorithmid}/backtests/{backtestid}:
+    get:
+      tags:
+        - backtests    
+      summary: retrieves a backtest for a specific algorithm and backtest id.
+      operationId: getAlgorithmBacktest
+      description: |
+        Retrieves a specific backtest for an algorithm.
+      parameters:
+        - in: path
+          name: algorithmid
+          description: algorithm class type name.
+          example: SMACross
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: backtestid
+          description: backtest id.
+          example: determined-yellow-pigeon
+          required: true
+          schema:
+            type: string            
+      responses:
+        '200':
+          description: A backtest.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/BacktestItem'   
+        '400':
+          description: Error response when the algorithm id or backtest id is not found.                
+  /api/algorithms/{algorithmid}/backtests/{backtestid}/charts:
+    get:
+      tags:
+        - backtests    
+      summary: retrieves a list of charts for a specific backtest and algorithm id.
+      operationId: getBacktestCharts
+      description: |
+        Retrieves the list of charts for a specific backtest.
+      parameters:
+        - in: path
+          name: algorithmid
+          description: algorithm class type name.
+          example: SMACross
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: backtestid
+          description: backtest id.
+          example: determined-yellow-pigeon
+          required: true
+          schema:
+            type: string            
+      responses:
+        '200':
+          description: A collection of charts.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ChartItemCollection'
+        '400':
+          description: Error response when the algorithm id or backtest id is not found.         
+  /api/algorithms/{algorithmid}/backtests/{backtestid}/orders:
+    get:
+      tags:
+        - backtests    
+      summary:  retrieves a list of orders for a specific backtest and algorithm id.
+      operationId: getBacktestOrders
+      description: |
+        Retrieves the list of orders for a specific backtest.
+      parameters:
+        - in: path
+          name: algorithmid
+          description: algorithm class type name.
+          example: SMACross
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: backtestid
+          description: backtest id.
+          example: determined-yellow-pigeon
+          required: true
+          schema:
+            type: string            
+      responses:
+        '200':
+          description: A collection of orders.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/BacktestItem'         
+        '400':
+          description: Error response when the algorithm id or backtest id is not found.                         
+  /api/algorithms/{algorithmid}/backtests/{backtestid}/statistcs:
+    get:
+      tags:
+        - backtests    
+      summary: retrieves the statistics for a specific backtest and algorithm id.
+      operationId: getBacktestStatistics
+      description: |
+        Retrieves the statistics for a specific backtest.
+      parameters:
+        - in: path
+          name: algorithmid
+          description: algorithm class type name.
+          example: SMACross
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: backtestid
+          description: backtest id
+          example: determined-yellow-pigeon
+          required: true
+          schema:
+            type: string            
+      responses:
+        '200':
+          description: The backtest statistics.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/StatisticsItem'        
+        '400':
+          description: Error response when the algorithm id or backtest id is not found.            
 components:
   schemas:
     AlgorithmItem:
@@ -44,4 +188,207 @@ components:
       properties:
         name:
           type: string
+          description: The algorithm class type name.          
           example: SMACross
+    BacktestItem:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 'determined-yellow-pigeon'
+            displayId:
+              type: string
+              example: 'Determined Yellow Pigeon'              
+            state:
+              type: string
+              enum: 
+                - Completed
+                - Running
+              example: 'Running'
+            parameters:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                slow-ema: '20'
+                fast-ema: '10'
+            dateRequested:
+              type: string
+              example: '2018-02-03T08:40:18.780147+02:00'
+            dateFinished:
+              type: string
+              example: '2018-02-03T08:41:348.780634+02:00'
+            processingTimeInSeconds:
+              type: number
+              example: 2.8
+            progressPercent:
+              type: number
+              example: 75.4  
+    ChartItemCollection:
+      type: object
+      additionalProperties:
+        type: object
+        $ref: '#/components/schemas/ChartItem'
+      example:
+        eurusd:
+          name: EURUSD
+        series:
+          price:
+            name: price
+            unit: $
+            index: 0
+            values:
+              - x: 1483246200
+                y: 1.07825
+              - x: 1483246600
+                y: 1.07433
+            seriesType: Candle
+            color: '#FF0000'
+            scatterMarkerSymbol: none                
+    ChartItem:
+      type: object
+      properties:
+        name: 
+          type: string
+        series:
+          type: object
+          additionalProperties:
+            type: object
+            $ref: '#/components/schemas/ChartSeries'
+          example:
+            price:
+              name: "Price"
+              unit: "$"
+              index: 0
+              values:
+                - x: 1483246800
+                  y: 100000
+                - x: 654564564
+                  y: 2132123
+              seriesType: Candle
+              color: '#FF0000'
+              scatterMarkerSymbol: none
+    ChartSeries:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the chart series.
+          example: 'Price'
+        unit:
+          type: string
+          description: Unit of the series.
+          example: '$'
+        index:
+          type: integer
+          description: Index/position of the series on the chart.
+          example: 0
+        values:
+          type: array
+          description: These values are assumed to be in ascending time order (first points earliest, last points latest).
+          items:
+            $ref: '#/components/schemas/ChartPoint'     
+          example:
+            - x: 1483246800
+              y: 100000
+        color: 
+          type: string
+          description: Color the series.
+          example: '#ff6bce'
+        seriesType:
+          type: string
+          description: Chart type for the series.
+          enum:
+            - Line
+            - Scatter
+            - Candle
+            - Bar
+            - Flag
+            - StackedArea
+            - Pie
+          example: Candle
+        scatterMarkerSymbol:
+          type: string
+          description: Shape or symbol for the marker in a scatter plot.
+          enum:
+            - None
+            - Circle
+            - Square
+            - Diamond
+            - Triangle
+            - Triangle-Down
+          example: Circle
+    ChartPoint:
+      type: object
+      properties:
+        x:
+          type: number
+          description: X value often representing a time in seconds
+          example: 1483246800          
+        y:
+          type: number
+          description: Y value
+          example: 100000
+    StatisticsItem:
+      type: object
+      properties:
+        totalTrades: 
+          type: integer
+          example: 5
+        averageWinPercent:
+          type: string
+          example: 5%
+        averageLossPercent:
+          type: string
+          example: -4%
+        compoundingAnnualReturnPercent:
+          type: string
+          example: 1.365%
+        drawdownPercent:
+          type: string
+          example: 3.2%
+        expectancy:
+          type: string
+          example: -1
+        netProfitPercent:
+          type: string
+          example: 2.5%
+        sharpeRatio:
+          type: string
+          example: 0.35
+        lossRatePercent:
+          type: string
+          example: 56%
+        winRatePercent:
+          type: string
+          example: 34%
+        profitLossRatio:
+          type: string
+          example: 0
+        alpha:
+          type: string
+          example: -0.044
+        beta:
+          type: string
+          example: 0.428
+        annualStandardDeviation:
+          type: string
+          example: 0.044
+        annualVariance:
+          type: string
+          example: 0.002
+        informationRatio:
+          type: string
+          example: -2.425
+        trackingError:
+          type: string
+          example: 0.043
+        treynorRatio:
+          type: string
+          example: 0.024
+        totalFees:
+          type: string
+          example: 1.53
+          
+          
+        

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using QuantConnect.Packets;
 
 namespace QuantConnect.DesktopServer
@@ -47,7 +48,7 @@ namespace QuantConnect.DesktopServer
                 {
                     throw new ArgumentException("Specified algorithm does not exist, cannot add backtest");
                 }
-                _backTestData[algorithmClassName].Add(backtest.BacktestId, backtest);
+                _backTestData[algorithmClassName].Add(StandardiseId(backtest.Info.Id), backtest);
             }
         }
 
@@ -55,15 +56,31 @@ namespace QuantConnect.DesktopServer
         {
             lock (_lockObject)
             {
-                _backTestData[algorithmClassName][backtestId].UpdateResult(updatedResult);
+                _backTestData[algorithmClassName][StandardiseId(backtestId)].UpdateResult(updatedResult);
             }
+        }
+
+        public void SetBacktestStateAsCompleted(string algorithmClassName, string backtestId, DateTime dateFinished)
+        {
+            lock (_lockObject)
+            {
+                _backTestData[algorithmClassName][StandardiseId(backtestId)].Info.SetAsComplete(dateFinished);
+            }            
+        }
+
+        public void UpdateProgress(string algorithmClassName, string backtestId, decimal progress, double processingTime)
+        {
+            lock (_lockObject)
+            {
+                _backTestData[algorithmClassName][StandardiseId(backtestId)].Info.UpdateProgress(progress, processingTime);
+            }              
         }
 
         public void AppendBacktestLog(string algorithmClassName, string backtestId, string logMessage)
         {
             lock (_lockObject)
             {
-                _backTestData[algorithmClassName][backtestId].AppendLogMessage(logMessage);
+                _backTestData[algorithmClassName][StandardiseId(backtestId)].AppendLogMessage(logMessage);
             }            
         }
 
@@ -71,7 +88,7 @@ namespace QuantConnect.DesktopServer
         {
             lock (_lockObject)
             {
-                return _backTestData[algorithmClassName][backtestId];
+                return _backTestData[algorithmClassName][StandardiseId(backtestId)];
             }
         }
 
@@ -88,7 +105,7 @@ namespace QuantConnect.DesktopServer
             lock (_lockObject)
             {
                 return _backTestData.ContainsKey(algorithmClassName) &&
-                       _backTestData[algorithmClassName].ContainsKey(backtestId);
+                                    _backTestData[algorithmClassName].ContainsKey(StandardiseId(backtestId));
             }             
         }
 
@@ -100,12 +117,33 @@ namespace QuantConnect.DesktopServer
             }
         }
 
-        public string[] GetBacktests(string algorithmClassName)
+        public IBacktestInfo[] GetBacktests(string algorithmClassName)
         {
             lock (_lockObject)
             {
-                return new List<string>(_backTestData[algorithmClassName].Keys).ToArray();
+                return _backTestData[algorithmClassName].Select((kv) => kv.Value.Info).ToArray();
             }            
+        }
+
+        public IBacktestInfo GetBacktest(string algorithmClassName, string backtestId)
+        {
+            lock (_lockObject)
+            {
+                return _backTestData[algorithmClassName][backtestId].Info;
+            }               
+        }
+
+        public BacktestResult GetBacktestResult(string algorithmClassName, string backtestId)
+        {
+            lock (_lockObject)
+            {
+                return _backTestData[algorithmClassName][backtestId].Result;
+            }               
+        }
+
+        public string StandardiseId(string backtestId)
+        {
+            return backtestId.Replace(" ", "-").ToLower();
         }
     }
 }

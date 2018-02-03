@@ -1,6 +1,7 @@
 ﻿using Nancy;
 using Nancy.Responses;
 using System.Linq;
+using QuantConnect.DesktopServer.WebServer.Routes.Models;
 
 namespace QuantConnect.DesktopServer.WebServer.Routes
 {
@@ -13,17 +14,77 @@ namespace QuantConnect.DesktopServer.WebServer.Routes
 
             Get["/api/algorithms"] = _ =>
             {
-                var algos = _sharedServerData.GetAlgorithms().Select(x => new { name = x }).ToArray();
-                return algos;
-                    //.WithModel(algos);
+                return _sharedServerData.GetAlgorithms().Select(x => new { name = x }).ToArray();
             };
 
             Get["/api/algorithms/{algorithmid}/backtests"] = parameters =>
             {
-                string algorithmclassname = parameters["algorithmid"];
-                var algos = _sharedServerData.GetBacktests(algorithmclassname).Select(x => new { name = x }).ToArray();
-                return algos;
-                //.WithModel(algos);
+                string algorithmClassName = parameters["algorithmid"];
+                if (!_sharedServerData.HasAlgorithm(algorithmClassName))
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+                return _sharedServerData.GetBacktests(algorithmClassName);
+            };
+
+            Get["/api/algorithms/{algorithmid}/backtests/{backtestid}"] = parameters =>
+            {
+                string algorithmClassName = parameters["algorithmid"];
+                if (!_sharedServerData.HasAlgorithm(algorithmClassName))
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+                string backtestId = parameters["backtestid"];
+                if(!_sharedServerData.HasBacktest( algorithmClassName, backtestId))
+                {
+                    return HttpStatusCode.BadRequest;                    
+                }
+                return _sharedServerData.GetBacktest(algorithmClassName, backtestId);
+            };
+
+            Get["/api/algorithms/{algorithmid}/backtests/{backtestid}/charts"] = parameters =>
+            {
+                string algorithmClassName = parameters["algorithmid"];
+                if (!_sharedServerData.HasAlgorithm(algorithmClassName))
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+                string backtestId = parameters["backtestid"];
+                if (!_sharedServerData.HasBacktest(algorithmClassName, backtestId))
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+                return new ChartsModel(_sharedServerData.GetBacktestResult(algorithmClassName, backtestId).Charts);
+            };
+
+            Get["/api/algorithms/{algorithmid}/backtests/{backtestid}/orders"] = parameters =>
+            {
+                string algorithmClassName = parameters["algorithmid"];
+                if (!_sharedServerData.HasAlgorithm(algorithmClassName))
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+                string backtestId = parameters["backtestid"];
+                if (!_sharedServerData.HasBacktest(algorithmClassName, backtestId))
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+                return _sharedServerData.GetBacktestResult(algorithmClassName, backtestId).Orders;
+            };
+
+            Get["/api/algorithms/{algorithmid}/backtests/{backtestid}/statistics"] = parameters =>
+            {
+                string algorithmClassName = parameters["algorithmid"];
+                if (!_sharedServerData.HasAlgorithm(algorithmClassName))
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+                string backtestId = parameters["backtestid"];
+                if (!_sharedServerData.HasBacktest(algorithmClassName, backtestId))
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+                return new StatisticsModel(_sharedServerData.GetBacktestResult(algorithmClassName, backtestId).Statistics);
             };
         }
     }

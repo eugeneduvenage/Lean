@@ -1,4 +1,5 @@
-﻿using QuantConnect.Packets;
+﻿using System;
+using QuantConnect.Packets;
 
 namespace QuantConnect.DesktopServer
 {
@@ -16,10 +17,18 @@ namespace QuantConnect.DesktopServer
 
         void AppendBacktestLog(string algorithmClassName, string backtestId, string logMessage);
 
+        void SetBacktestStateAsCompleted(string algorithmClassName, string backtestId, DateTime dateFinished);
+
+        void UpdateProgress(string algorithmClassName, string backtestId, decimal progress, double processingTime);
+
         IBacktestData GetBacktestData(string algorithmClassName, string backtestId);
 
         string[] GetAlgorithms();
 
-        string[] GetBacktests(string algorithmClassName);
+        IBacktestInfo[] GetBacktests(string algorithmClassName);
+
+        IBacktestInfo GetBacktest(string algorithmClassName, string backtestId);
+
+        BacktestResult GetBacktestResult(string algorithmClassName, string backtestId);
     }
 }

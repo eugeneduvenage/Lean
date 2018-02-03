@@ -5,6 +5,8 @@ using System.Reflection;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Conventions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace QuantConnect.DesktopServer.WebServer
 {
@@ -39,6 +41,13 @@ namespace QuantConnect.DesktopServer.WebServer
             }
         }
 
+        protected override void ConfigureApplicationContainer(Nancy.TinyIoc.TinyIoCContainer container)
+        {
+            base.ConfigureApplicationContainer(container);
+
+            container.Register<JsonSerializer, CustomJsonSerializer>();
+        }
+
         protected override void ConfigureConventions(NancyConventions nancyConventions)
         {
             nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("/assets", "Assets"));
@@ -58,6 +67,15 @@ namespace QuantConnect.DesktopServer.WebServer
         {
             var rootPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../"));
             return rootPath;
+        }
+    }
+
+    public class CustomJsonSerializer : JsonSerializer
+    {
+        public CustomJsonSerializer()
+        {
+            this.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            this.Formatting = Formatting.Indented;
         }
     }
 }
