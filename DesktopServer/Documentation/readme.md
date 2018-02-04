@@ -1,6 +1,6 @@
-** Desktop Server Prototype Overview**
+# Desktop Server Prototype Overview
 
-# Purpose
+## Purpose
 
 To discover how a Desktop API for the LEAN codebase could potentially look.
 
