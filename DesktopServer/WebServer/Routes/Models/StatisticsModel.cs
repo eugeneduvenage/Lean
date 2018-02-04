@@ -81,97 +81,115 @@ namespace QuantConnect.DesktopServer.WebServer.Routes.Models
             }
         }
 
-        public string TotalTrades
-        {
-            get;
-            protected set;
-        }
-        public string AverageWinPercent
-        {
-            get;
-            protected set;
-        }
-        public string AverageLossPercent
-        {
-            get;
-            protected set;
-        }
-        public string CompoundingAnnualReturnPercent
-        {
-            get;
-            protected set;
-        }
-        public string DrawdownPercent
-        {
-            get;
-            protected set;
-        }
-        public string Expectancy
-        {
-            get;
-            protected set;
-        }
-        public string NetProfitPercent
-        {
-            get;
-            protected set;
-        }
-        public string SharpeRatio
-        {
-            get;
-            protected set;
-        }
-        public string LossRatePercent
-        {
-            get;
-            protected set;
-        }
-        public string WinRatePercent
-        {
-            get;
-            protected set;
-        }
-        public string ProfitLossRatio
-        {
-            get;
-            protected set;
-        }
         public string Alpha
         {
             get;
             protected set;
         }
-        public string Beta
-        {
-            get;
-            protected set;
-        }
+
         public string AnnualStandardDeviation
         {
             get;
             protected set;
         }
+
         public string AnnualVariance
         {
             get;
             protected set;
         }
+
+        public string AverageLossPercent
+        {
+            get;
+            protected set;
+        }
+
+        public string AverageWinPercent
+        {
+            get;
+            protected set;
+        }
+
+        public string Beta
+        {
+            get;
+            protected set;
+        }
+
+        public string CompoundingAnnualReturnPercent
+        {
+            get;
+            protected set;
+        }
+
+        public string DrawdownPercent
+        {
+            get;
+            protected set;
+        }
+
+        public string Expectancy
+        {
+            get;
+            protected set;
+        }
+
         public string InformationRatio
         {
             get;
             protected set;
         }
+
+        public string LossRatePercent
+        {
+            get;
+            protected set;
+        }
+
+        public string NetProfitPercent
+        {
+            get;
+            protected set;
+        }
+
+        public string ProfitLossRatio
+        {
+            get;
+            protected set;
+        }
+
+        public string SharpeRatio
+        {
+            get;
+            protected set;
+        }
+
+        public string TotalFees
+        {
+            get;
+            protected set;
+        }
+
+        public string TotalTrades
+        {
+            get;
+            protected set;
+        }
+
         public string TrackingError
         {
             get;
             protected set;
         }
-        public string TreynorRatio
-        {
-            get;
-            protected set;
-        }
-        public string TotalFees
+
+		public string TreynorRatio
+		{
+			get;
+			protected set;
+		}
+
+        public string WinRatePercent
         {
             get;
             protected set;

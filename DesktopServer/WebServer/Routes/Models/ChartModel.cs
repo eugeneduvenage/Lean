@@ -8,10 +8,10 @@ namespace QuantConnect.DesktopServer.WebServer.Routes.Models
             public ChartModel(Chart chart)
         {
             Name = chart.Name;
-            Series = new Dictionary<string, ChartSeries>();
+            Series = new Dictionary<string, ChartSeriesModel>();
             foreach(var series in chart.Series)
             {
-                Series.Add(series.Key, new ChartSeries(series.Value));
+                Series.Add(series.Key, new ChartSeriesModel(series.Value));
             }
         }
 
@@ -21,7 +21,7 @@ namespace QuantConnect.DesktopServer.WebServer.Routes.Models
             protected set;
         }
 
-        public IDictionary<string, ChartSeries> Series
+        public IDictionary<string, ChartSeriesModel> Series
         {
             get;
             protected set;

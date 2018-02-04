@@ -12,7 +12,7 @@ namespace QuantConnect.DesktopServer.WebServer
             _sharedServerData = sharedServerData;
         }
 
-        public void Start(string protocol = "http", string hostname = "localhost", string port = "8989" )
+        public void Start(string port = "8989", string protocol = "http", string hostname = "localhost")
         {
             var listenUrl = new Uri(string.Format("{0}://{1}:{2}", protocol, hostname, port));
             _webServer = new NancyHost(new DesktopBootstrapper(_sharedServerData), new Uri[] { listenUrl });

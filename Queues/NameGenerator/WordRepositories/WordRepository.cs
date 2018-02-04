@@ -1,6 +1,9 @@
 ﻿using System;
 namespace QuantConnect.Queues.WordRepositories
 {
+    /// <summary>
+    /// Code modified from https://github.com/colinmxs/CodenameGenerator
+    /// </summary>
     public class WordRepository
     {
         private readonly string[] _words;

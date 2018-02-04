@@ -7,9 +7,9 @@ using QuantConnect.Util;
 
 namespace QuantConnect.DesktopServer.WebServer.Routes.Models
 {
-    public class ChartSeries
+    public class ChartSeriesModel
     {
-        public ChartSeries(Series chartSeries)
+        public ChartSeriesModel(Series chartSeries)
         {
             Name = chartSeries.Name;
             Unit = chartSeries.Unit;
@@ -20,13 +20,8 @@ namespace QuantConnect.DesktopServer.WebServer.Routes.Models
             ScatterMarkerSymbol = (ChartScatterMarkerSymbol)chartSeries.ScatterMarkerSymbol;
         }
 
-        public string Name
-        {
-            get;
-            protected set;
-        }
-
-        public string Unit
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color Color
         {
             get;
             protected set;
@@ -38,7 +33,14 @@ namespace QuantConnect.DesktopServer.WebServer.Routes.Models
             protected set;
         }
 
-        public List<ChartPoint> Values
+        public string Name
+        {
+            get;
+            protected set;
+        }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ChartScatterMarkerSymbol ScatterMarkerSymbol
         {
             get;
             protected set;
@@ -51,15 +53,13 @@ namespace QuantConnect.DesktopServer.WebServer.Routes.Models
             protected set;
         }
 
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color Color
+        public string Unit
         {
             get;
             protected set;
         }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public ChartScatterMarkerSymbol ScatterMarkerSymbol
+        public List<ChartPoint> Values
         {
             get;
             protected set;

@@ -1,0 +1,659 @@
+﻿openapi: 3.0.0
+info:
+  description: QuantConnect Lean Desktop API
+  version: "1.0.1-oas3"
+  title: Lean Desktop API
+paths:
+  /api/algorithms:
+    get:
+      tags:
+        - backtests    
+      summary: retrieves the list of algorithms that are either currently running or have previously been saved.
+      operationId: getAlgorithms
+      description: |
+        Retrieves the list of algorithms for which a backtest is either currently running or has previously been saved.
+      responses:
+        '200':
+          description: A collection of algorithms.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Algorithm'
+  /api/algorithms/{algorithmid}/backtests:
+    get:
+      tags:
+        - backtests
+      summary: retrieves the list of backtests for a specific algorithm.      
+      operationId: getAlgorithmBacktests
+      description: |
+        Rretrieves the list of backtests that are either currently running or have previously been saved for a specific algorithm.
+      parameters:
+        - in: path
+          name: algorithmid
+          description: algorithm class type name.
+          required: true
+          schema:
+            type: string
+          example: SMACross
+      responses:
+        '200':
+          description: A collection of backtests.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Backtest'  
+        '400':
+          description: Error response when the algorithm id is not found.
+
+  /api/algorithms/{algorithmid}/backtests/{backtestid}:
+    get:
+      tags:
+        - backtests    
+      summary: retrieves a backtest for a specific algorithm and backtest id.
+      operationId: getAlgorithmBacktest
+      description: |
+        Retrieves a specific backtest for an algorithm.
+      parameters:
+        - in: path
+          name: algorithmid
+          description: algorithm class type name.
+          example: SMACross
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: backtestid
+          description: backtest id.
+          example: determined-yellow-pigeon
+          required: true
+          schema:
+            type: string            
+      responses:
+        '200':
+          description: A backtest.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Backtest'   
+        '400':
+          description: Error response when the algorithm id or backtest id is not found.                
+  /api/algorithms/{algorithmid}/backtests/{backtestid}/charts:
+    get:
+      tags:
+        - backtests    
+      summary: retrieves a list of charts for a specific backtest and algorithm id.
+      operationId: getBacktestCharts
+      description: |
+        Retrieves the list of charts for a specific backtest.
+      parameters:
+        - in: path
+          name: algorithmid
+          description: algorithm class type name.
+          example: SMACross
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: backtestid
+          description: backtest id.
+          example: determined-yellow-pigeon
+          required: true
+          schema:
+            type: string            
+      responses:
+        '200':
+          description: A collection of charts.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ChartDictionary'
+        '400':
+          description: Error response when the algorithm id or backtest id is not found.         
+  /api/algorithms/{algorithmid}/backtests/{backtestid}/orders:
+    get:
+      tags:
+        - backtests    
+      summary:  retrieves a list of orders for a specific backtest and algorithm id.
+      operationId: getBacktestOrders
+      description: |
+        Retrieves the list of orders for a specific backtest.
+      parameters:
+        - in: path
+          name: algorithmid
+          description: algorithm class type name.
+          example: SMACross
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: backtestid
+          description: backtest id.
+          example: determined-yellow-pigeon
+          required: true
+          schema:
+            type: string            
+      responses:
+        '200':
+          description: A collection of orders.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/OrderDictionary'         
+        '400':
+          description: Error response when the algorithm id or backtest id is not found.                         
+  /api/algorithms/{algorithmid}/backtests/{backtestid}/statistcs:
+    get:
+      tags:
+        - backtests    
+      summary: retrieves the statistics for a specific backtest and algorithm id.
+      operationId: getBacktestStatistics
+      description: |
+        Retrieves the statistics for a specific backtest.
+      parameters:
+        - in: path
+          name: algorithmid
+          description: algorithm class type name.
+          example: SMACross
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: backtestid
+          description: backtest id
+          example: determined-yellow-pigeon
+          required: true
+          schema:
+            type: string            
+      responses:
+        '200':
+          description: The backtest statistics.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Statistics'        
+        '400':
+          description: Error response when the algorithm id or backtest id is not found.            
+components:
+  schemas:
+    Algorithm:
+      type: object
+      properties:
+        classTypeName:
+          type: string
+          description: The algorithm class type name.          
+          example: SMACross
+    Backtest:
+          type: object
+          properties:
+            dateRequested:
+              type: string
+              example: '2018-02-03T08:40:18.780147+02:00'
+            dateFinished:
+              type: string
+              example: '2018-02-03T08:41:348.780634+02:00'              
+            displayId:
+              type: string
+              example: 'Determined Yellow Pigeon'   
+            id:
+              type: string
+              example: 'determined-yellow-pigeon'
+            parameters:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                slow-ema: '20'
+                fast-ema: '10'   
+            processingTimeInSeconds:
+              type: number
+              example: 2.8
+            progressPercent:
+              type: number
+              example: 75.4                
+            state:
+              type: string
+              enum: 
+                - Completed
+                - Running
+              example: 'Running'
+    ChartDictionary:
+      type: object
+      additionalProperties:
+        type: object
+        $ref: '#/components/schemas/Chart'
+      example:
+        eurusd:
+          name: EURUSD
+        series:
+          price:
+            name: price
+            color: '#FF0000'
+            index: 0
+            scatterMarkerSymbol: none                
+            seriesType: Candle
+            unit: $
+            values:
+              - x: 1483246200
+                y: 1.07825
+              - x: 1483246600
+                y: 1.07433
+    Chart:
+      type: object
+      properties:
+        name: 
+          type: string
+        series:
+          type: object
+          additionalProperties:
+            type: object
+            $ref: '#/components/schemas/ChartSeries'
+          example:
+            price:
+              name: "Price"
+              color: '#FF0000'
+              index: 0
+              unit: "$"
+              scatterMarkerSymbol: none
+              seriesType: Candle
+              values:
+                - x: 1483246800
+                  y: 100000
+                - x: 654564564
+                  y: 2132123
+    ChartSeries:
+      type: object
+      properties:
+        color: 
+          type: string
+          description: Color the series.
+          example: '#ff6bce'
+        index:
+          type: integer
+          description: Index/position of the series on the chart.
+          example: 0     
+        name:
+          type: string
+          description: Name of the chart series.
+          example: 'Price'
+        scatterMarkerSymbol:
+          type: string
+          description: Shape or symbol for the marker in a scatter plot.
+          enum:
+            - None
+            - Circle
+            - Square
+            - Diamond
+            - Triangle
+            - Triangle-Down
+          example: Circle
+        seriesType:
+          type: string
+          description: Chart type for the series.
+          enum:
+            - Line
+            - Scatter
+            - Candle
+            - Bar
+            - Flag
+            - StackedArea
+            - Pie
+          example: Candle          
+        unit:
+          type: string
+          description: Unit of the series.
+          example: '$'
+        values:
+          type: array
+          description: These values are assumed to be in ascending time order (first points earliest, last points latest).
+          items:
+            $ref: '#/components/schemas/ChartPoint'     
+          example:
+            - x: 1483246800
+              y: 100000
+    ChartPoint:
+      type: object
+      properties:
+        x:
+          type: number
+          description: X value often representing a time in seconds
+          example: 1483246800          
+        y:
+          type: number
+          description: Y value
+          example: 100000
+    Statistics:
+      type: object
+      properties:
+        alpha:
+          type: string
+          example: -0.044
+        annualStandardDeviation:
+          type: string
+          example: 0.044
+        annualVariance:
+          type: string
+          example: 0.002          
+        averageLossPercent:
+          type: string
+          example: -4%
+        averageWinPercent:
+          type: string
+          example: 5%          
+        beta:
+          type: string
+          example: 0.428    
+        compoundingAnnualReturnPercent:
+          type: string
+          example: 1.365%          
+        drawdownPercent:
+          type: string
+          example: 3.2%          
+        expectancy:
+          type: string
+          example: -1
+        informationRatio:
+          type: string
+          example: -2.425
+        lossRatePercent:
+          type: string
+          example: 56%        
+        netProfitPercent:
+          type: string
+          example: 2.5%
+        profitLossRatio:
+          type: string
+          example: 0          
+        sharpeRatio:
+          type: string
+          example: 0.35
+        totalFees:
+          type: string
+          example: 1.53          
+        totalTrades: 
+          type: integer
+          example: 5
+        trackingError:
+          type: string
+          example: 0.043
+        treynorRatio:
+          type: string
+          example: 0.024
+        winRatePercent:
+          type: string
+          example: 34%          
+    OrderDictionary:
+      type: object
+      additionalProperties:
+        type: object
+        oneOf:
+          - $ref: '#/components/schemas/MarketOrder'
+          - $ref: '#/components/schemas/LimitOrder'
+          - $ref: '#/components/schemas/StopMarketOrder'
+          - $ref: '#/components/schemas/StopLimitOrder'
+          - $ref: '#/components/schemas/MarketOnOpenOrder'
+          - $ref: '#/components/schemas/MarketOnCloseOrder'
+          - $ref: '#/components/schemas/OptionsExerciseOrder'
+      example:
+        1:
+          absoluteQuantity: 474576
+          brokerId:
+            - 1
+          contingentId: 3
+          direction: Buy
+          duration: GTC
+          id: 4
+          symbol:
+            ticker: EURUSD
+            market: Oanda
+            securityType: Forex  
+          price: 457834.0
+          priceCurrency: "$"
+          quantity: 45654
+          status: Submitted
+          time: '2017-02-06T00:00:00Z'
+          type: Market
+          tag: A speical order
+          value: 100054.045
+    BaseOrder:
+      type: object
+      properties:
+        absoluteQuantity:
+          type: number
+          description: The absolute quantity for this order.
+          example: 92742          
+        brokerId:
+          type: array
+          description: Brokerage Id for this order for when the brokerage splits orders into multiple pieces.
+          items:
+            type: string
+        contingentId:
+          type: integer
+          description: Order id to process before processing this order.
+          example: 5
+        direction:
+          type: string
+          enum:
+            - Buy
+            - Sell
+            - Hold
+          example: Buy
+        duration:
+          type: string
+          description: Order duration in market.
+          enum:
+            - GTC
+            - Custom
+          example: GTC          
+        id: 
+          type: integer
+          description: Order id.
+          example: 5
+        price:
+          type: number
+          description: The price of the order.
+          example: 1.07833
+        priceCurrency:
+          type: string
+          description: Currency for the order price.
+          example: "$"          
+        quantity:
+          type: number
+          description: The quantity of the asset to execute.
+          example: 92742
+        status:
+          type: string
+          description: The order status.
+          enum:
+            - New
+            - Sumbitted
+            - PartiallyFilled
+            - Filled
+            - Canceled
+            - None
+            - Invalid
+            - CancelPending
+          example: Sumbitted          
+        symbol:
+          oneOf:
+            - $ref: '#/components/schemas/EquitySymbol'
+            - $ref: '#/components/schemas/OptionSymbol'
+            - $ref: '#/components/schemas/CommoditySymbol'
+            - $ref: '#/components/schemas/ForexSymbol'
+            - $ref: '#/components/schemas/FutureSymbol'
+            - $ref: '#/components/schemas/CfdSymbol'
+            - $ref: '#/components/schemas/CryptoSymbol'
+          description: The symbol of the asset.
+        tag:
+          type: string
+          description: Custom order tag.
+          example: A special order
+        time: 
+          type: string
+          description: The time the order was created.
+          example: '2017-02-03T08:40:18.780147+02:00'
+        type:
+          type: string
+          description: The order type
+          enum:
+            - Market
+            - Limit
+            - StopMarket
+            - StopLimit
+            - MarketOnOpen
+            - MarketOnClose
+            - OptionExercise
+          example: Market
+        value:
+          type: number
+          description: Gets the executed value of this order. If the order has not yet filled, then this will return zero.
+          example: 100006.48086
+    MarketOrder:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrder'
+    LimitOrder:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrder'     
+    StopMarketOrder:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrder'  
+        - type: object
+          properties: 
+            stopPrice:
+              type: number
+              description: Stop price for this stop market order.
+              example: 82675        
+    StopLimitOrder:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrder'
+        - type: object
+          properties: 
+            limitPrice:
+              type: number
+              description: Limit price for the stop limit order.
+              example: 82676              
+            stopPrice:
+              type: number
+              description: Stop price for this stop limit order.
+              example: 82675
+            stopTriggered:
+              type: boolean
+              description: Signal showing the "StopLimitOrder" has been converted into a limit order.
+              example: false
+    MarketOnOpenOrder:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrder'      
+    MarketOnCloseOrder:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrder'            
+    OptionsExerciseOrder:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrder'    
+    BaseSymbol:
+      type: object
+      properties:
+        ticker:
+          type: string
+          description: The ticker for this symbol.
+          example: EURUSD
+        market:
+          type: string
+          description: The market this symbol belongs to.
+          example: Oanda
+        securityType:
+          type: string
+          description: The security type of the symbol.
+          example: Equity
+          enum:
+            - Equity
+            - Option
+            - Commodity
+            - Forex
+            - Future
+            - Cfd
+            - Crypto
+      example:
+        ticker: EURUSD
+        marker: Oanda
+        securityType: Forex
+    DerivativeSymbol:
+      allOf:
+        - $ref: '#/components/schemas/BaseSymbol'    
+        - type: object
+          properties:
+            underlying:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/EquitySymbol'
+                - $ref: '#/components/schemas/CommoditySymbol'
+                - $ref: '#/components/schemas/ForexSymbol'
+                - $ref: '#/components/schemas/CryptoSymbol'
+    EquitySymbol:
+      allOf:
+        - $ref: '#/components/schemas/BaseSymbol'
+        - type: object
+          properties:
+            firstTradedDate:
+              type: string
+              description: The first traded date.
+              example: '2017-02-03T08:40:18.780147+02:00'
+    OptionSymbol:
+      allOf:
+        - $ref:  '#/components/schemas/DerivativeSymbol'
+        - type: object
+          properties:
+            expiryDate:
+              type: string
+              description: The option expiry date.
+              example: '2017-02-03T08:40:18.780147+02:00'
+            optionRight:
+              type: string
+              description: The option right type.
+              enum:
+                - Call
+                - Put
+              example: Call
+            optionStyle:
+              type: string
+              description: The option style type.
+              enum:
+                - American
+                - European
+            strikePrice:
+              type: number
+              description: The option strike price.
+              example: 1365.74                
+    CommoditySymbol:
+      allOf:
+        - $ref:  '#/components/schemas/BaseSymbol'
+    ForexSymbol:
+      allOf:
+        - $ref:  '#/components/schemas/BaseSymbol'        
+    FutureSymbol:
+      allOf:
+        - $ref: '#/components/schemas/DerivativeSymbol'
+        - type: object
+          properties:
+            settlementDate:
+              type: string
+              description: The settlement date.
+              example: '2017-02-03T08:40:18.780147+02:00' 
+    CfdSymbol:
+      allOf:
+        - $ref:  '#/components/schemas/DerivativeSymbol'   
+    CryptoSymbol:
+      allOf:
+        - $ref:  '#/components/schemas/BaseSymbol'        
+    EmptySymbol:
+      type: string
+      description: An empty symbol.
+      enum:
+        - None
+      example: None

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using QuantConnect.Logging;
 using QuantConnect.Packets;
 
 namespace QuantConnect.DesktopServer
@@ -7,9 +8,9 @@ namespace QuantConnect.DesktopServer
     public class LeanMessageHandler : ILeanMessageHandler
     {
         private ISharedServerData _sharedServerData;
-        private IBacktestPersistanceManager _persistanceManager;
+        private IBacktestPersistenceManager _persistanceManager;
         private Dictionary<string, Dictionary<string, string>> _algorithmBackTestParameters;
-        public LeanMessageHandler(ISharedServerData sharedServerData, IBacktestPersistanceManager persistanceManager)
+        public LeanMessageHandler(ISharedServerData sharedServerData, IBacktestPersistenceManager persistanceManager)
         {
             _sharedServerData = sharedServerData;
             _persistanceManager = persistanceManager;
@@ -25,7 +26,7 @@ namespace QuantConnect.DesktopServer
 
         public void HandleBacktestResultsPacket(BacktestResultPacket packet)
         {
-            Console.WriteLine("HandleBacktestResultsPacket");
+            Log.Trace("HandleBacktestResultsPacket");;
             var backtestIds = ExtractIdentifiers(packet.BacktestId);
 
             if(!_sharedServerData.HasBacktest(backtestIds.AlgorithmClassName, backtestIds.BacktestId))
@@ -51,24 +52,24 @@ namespace QuantConnect.DesktopServer
 
         public void HandleDebugPacket(DebugPacket packet)
         {
-            Console.WriteLine("HandleDebugPacket");
+            Log.Trace("HandleDebugPacket");
         }
 
         public void HandleErrorPacket(HandledErrorPacket packet)
         {
-            Console.WriteLine("HandleErrorPacket");
+            Log.Trace("HandleErrorPacket");
         }
 
         public void HandleLogPacket(LogPacket packet)
         {
-            Console.WriteLine("HandleLogPacket");
+            Log.Trace("HandleLogPacket");
             var backtestIds = ExtractIdentifiers(packet.AlgorithmId);
             _sharedServerData.AppendBacktestLog(backtestIds.AlgorithmClassName, backtestIds.BacktestId, packet.Message);
         }
 
         public void HandleRuntimeErrorPacket(RuntimeErrorPacket packet)
         {
-            Console.WriteLine("HandleRuntimeErrorPacket");
+            Log.Trace("HandleRuntimeErrorPacket");
         }
 
         public BacktestIdentifier ExtractIdentifiers(string combinedIdentifier)

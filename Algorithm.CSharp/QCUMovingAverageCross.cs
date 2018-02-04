@@ -25,7 +25,7 @@ namespace QuantConnect.Algorithm.CSharp
         public override void Initialize()
         {
             // set up our analysis span
-            SetStartDate(2017, 01, 01);
+            SetStartDate(2017, 04, 01);
             SetEndDate(2017, 06, 01);
 
             // request SPY data with minute resolution

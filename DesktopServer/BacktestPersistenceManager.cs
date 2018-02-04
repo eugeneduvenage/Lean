@@ -8,7 +8,7 @@ using QuantConnect.Packets;
 
 namespace QuantConnect.DesktopServer
 {
-    public class BacktestPersistanceManager : IBacktestPersistanceManager
+    public class BacktestPersistenceManager : IBacktestPersistenceManager
     {
         private string _leanUserDirectory;
         private string _algorithmsDirectory;
@@ -21,7 +21,7 @@ namespace QuantConnect.DesktopServer
         private const string RESULTS_OUTPUT_FILE_NAME = "results.json";
         private const string INFO_OUTPUT_FILE_NAME = "info.json";
 
-        public BacktestPersistanceManager()
+        public BacktestPersistenceManager()
         {
             string homeDir = GetHomeDrive();
             _leanUserDirectory = Path.Combine(homeDir, LEAN_USER_DIR_NAME);

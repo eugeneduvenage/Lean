@@ -3,6 +3,9 @@ using System.Collections.Specialized;
 
 namespace QuantConnect.Queues
 {
+    /// <summary>
+    /// Code modified from https://github.com/colinmxs/CodenameGenerator
+    /// </summary>
     public class AlgorithmIdGenerator
     {
         private readonly Random _random;

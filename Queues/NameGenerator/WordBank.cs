@@ -3,6 +3,9 @@ using QuantConnect.Queues.WordRepositories;
 
 namespace QuantConnect.Queues
 {
+    /// <summary>
+    /// Code modified from https://github.com/colinmxs/CodenameGenerator
+    /// </summary>    
     public class WordBank
     {
         protected readonly string Name;

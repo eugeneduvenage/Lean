@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace QuantConnect.DesktopServer.WebServer.Routes.Models
 {
-    public class ChartsModel: Dictionary<string, ChartModel>
+    public class BacktestChartsDictionaryModel: Dictionary<string, ChartModel>
     {
-        public ChartsModel(IDictionary<string, Chart> charts)
+        public BacktestChartsDictionaryModel(IDictionary<string, Chart> charts)
         {
             foreach(var kv in charts)
             {

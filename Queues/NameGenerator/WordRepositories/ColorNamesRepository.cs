@@ -2,6 +2,9 @@
 
 namespace QuantConnect.Queues.WordRepositories
 {
+    /// <summary>
+    /// Code modified from https://github.com/colinmxs/CodenameGenerator
+    /// </summary>    
     public class ColorNamesRepository : WordRepository
     {
         public ColorNamesRepository() :

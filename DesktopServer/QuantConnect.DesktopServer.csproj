@@ -66,23 +66,46 @@
     <Compile Include="ILeanMessageHandler.cs" />
     <Compile Include="LeanMessageHandler.cs" />
     <Compile Include="ISharedServerData.cs" />
-    <Compile Include="Backtest.cs" />
+    <Compile Include="BacktestInfo.cs" />
     <Compile Include="SharedServerData.cs" />
-    <Compile Include="BacktestPersistanceManager.cs" />
-    <Compile Include="IBacktestPersistanceManager.cs" />
+    <Compile Include="BacktestPersistenceManager.cs" />
+    <Compile Include="IBacktestPersistenceManager.cs" />
     <Compile Include="WebServer\DesktopBootstrapper.cs" />
     <Compile Include="WebServer\Routes\AlgorithmsModule.cs" />
-    <Compile Include="WebServer\Routes\ChartsModule.cs" />
     <Compile Include="WebServer\Routes\IndexModule.cs" />
-    <Compile Include="WebServer\Routes\TradesModule.cs" />
     <Compile Include="WebServer\Routes\OpenApiModule.cs" />
     <Compile Include="TcpServer\NetMQTcpServer.cs" />
     <Compile Include="WebServer\NancyWebServer.cs" />
     <Compile Include="JsonConverters\DecimalJsonConverter.cs" />
     <Compile Include="WebServer\Routes\Models\StatisticsModel.cs" />
-    <Compile Include="WebServer\Routes\Models\ChartsModel.cs" />
+    <Compile Include="WebServer\Routes\Models\BacktestChartsDictionaryModel.cs" />
     <Compile Include="WebServer\Routes\Models\ChartModel.cs" />
-    <Compile Include="WebServer\Routes\Models\ChartSeries.cs" />
+    <Compile Include="WebServer\Routes\Models\ChartSeriesModel.cs" />
+    <Compile Include="WebServer\Routes\Models\BacktestOrdersDictionaryModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Orders\BaseOrderModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Orders\LimitOrderModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Orders\MarketOrderModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Orders\StopMarketOrderModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Orders\StopLimitOrderModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Orders\MarketOnOpenOrderModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Orders\MarketOnCloseOrderModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Orders\OptionsExerciseOrderModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Symbols\BaseSymbolModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Symbols\EquitySymbolModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Symbols\CommoditySymbolModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Symbols\ForexSymbolModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Symbols\FutureSymbolModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Symbols\CfdSymbolModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Symbols\CryptoSymbolModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Symbols\DerivativeSymbolModel.cs" />
+    <Compile Include="WebServer\Routes\Models\Symbols\OptionSymbolModel.cs" />
+    <Compile Include="WebServer\Routes\Models\AlgorithmModel.cs" />
+    <Compile Include="WebServer\Routes\Models\BacktestModel.cs" />
+    <Compile Include="BacktestState.cs" />
+    <Compile Include="IBacktestInfo.cs" />
+    <Compile Include="IBacktestData.cs" />
+    <Compile Include="BacktestData.cs" />
+    <Compile Include="WebServer\Routes\Models\RuntimeStatisticsModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -140,10 +163,12 @@
     <Folder Include="Assets\js\" />
     <Folder Include="JsonConverters\" />
     <Folder Include="WebServer\Routes\Models\" />
+    <Folder Include="WebServer\Routes\Models\Orders\" />
+    <Folder Include="WebServer\Routes\Models\Symbols\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\html\index.html" />
-    <Content Include="WebServer\open-api.yaml" />
+    <Content Include="WebServer\swagger.yaml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

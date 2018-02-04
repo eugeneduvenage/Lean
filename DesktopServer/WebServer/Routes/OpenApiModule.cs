@@ -14,7 +14,7 @@ namespace QuantConnect.DesktopServer.WebServer.Routes
 
             Get["/docs/yaml"] = _ =>
             {
-                return Response.AsFile("WebServer/open-api.yaml", "text/yaml")
+                return Response.AsFile("WebServer/swagger.yaml", "text/yaml")
                                .WithHeader("Cache-Control", "no-cache, no-store, must-revalidate")
                                .WithHeader("Pragma", "no-cache")
                                .WithHeader("Expires", "0");

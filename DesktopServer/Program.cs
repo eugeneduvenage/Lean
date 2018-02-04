@@ -9,13 +9,16 @@ namespace QuantConnect.DesktopServer
         public static void Main(string[] args)
         {
             string tcpListenPort = "5558";
-            if (args.Length == 1)
+            string httpListenPort = "8989";
+
+            if (args.Length == 2)
             {
                 tcpListenPort = args[0];
+                httpListenPort = args[1];
             }
 
             Console.Write("Looking for saved backtests...");
-            var backtestPersistanceManager = new BacktestPersistanceManager();
+            var backtestPersistanceManager = new BacktestPersistenceManager();
             var existingBacktests = backtestPersistanceManager.LoadStoredBacktests();
             Console.WriteLine("done");
             var sharedServerData = new SharedServerData(existingBacktests);
@@ -23,7 +26,7 @@ namespace QuantConnect.DesktopServer
             var tcpServer = new NetMQTcpServer();
 
             Console.Write("Starting webserver...");
-            webServer.Start();
+            webServer.Start(httpListenPort);
             Console.WriteLine("done");
             Console.Write("Starting tcpserver...");
             tcpServer.Start(tcpListenPort, new LeanMessageHandler(sharedServerData, backtestPersistanceManager));

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace QuantConnect.DesktopServer
 {
-    public interface IBacktestPersistanceManager
+    public interface IBacktestPersistenceManager
     {
         void StoreBacktest(string algorithmClassName, IBacktestData backtest);
 

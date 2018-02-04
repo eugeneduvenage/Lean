@@ -1,6 +1,9 @@
 ﻿using System;
 namespace QuantConnect.Queues
 {
+    /// <summary>
+    /// Code modified from https://github.com/colinmxs/CodenameGenerator
+    /// </summary>    
     public static class StringExtensions
     {
         //http://stackoverflow.com/questions/4135317/make-first-letter-of-a-string-upper-case-for-maximum-performance

@@ -7,45 +7,6 @@ using QuantConnect.Packets;
 
 namespace QuantConnect.DesktopServer
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum BacktestState 
-    {
-        Complete,
-        Running
-    }
-
-    public interface IBacktestInfo
-    {
-        string Id { get; }
-
-        BacktestState State { get; }
-
-        Dictionary<string, string> Parameters { get; }
-
-        decimal ProgressPercent { get; }
-
-        DateTime DateRequested { get; }
-
-        DateTime DateFinished { get; }
-
-        double ProcessingTimeInSeconds { get; }
-
-        void SetAsComplete(DateTime dateFinished);
-
-        void UpdateProgress(decimal progress, double processingTime);
-    }
-
-    public interface IBacktestData 
-    {
-
-        BacktestResult Result { get; }
-
-        IBacktestInfo Info { get; }
-
-        IEnumerable<string> Logs { get; }
-
-    }
-
     public class BacktestInfo : IBacktestInfo
     {
         public BacktestInfo(string id, BacktestState state, Dictionary<string, string> parameters, decimal progressPercent, DateTime dateRequested,
@@ -120,58 +81,6 @@ namespace QuantConnect.DesktopServer
         {
             ProgressPercent = progress * 100.0M;
             ProcessingTimeInSeconds = processingTime;
-        }
-    }
-
-    public class BacktestData : IBacktestData
-    {
-        private List<string> _logs;
-        public BacktestData(IBacktestInfo backtestInfo)
-            : this(backtestInfo, null)
-        {
-
-        }
-
-        public BacktestData(IBacktestInfo backtestInfo, BacktestResult result)
-        {
-            _logs = new List<string>();
-            Result = result;
-            Info = backtestInfo;
-        }
-
-        public IBacktestInfo Info
-        {
-            get;
-            protected set;
-        }
-
-        public BacktestResult Result 
-        {
-            get;
-            protected set;
-        }
-
-        public IEnumerable<string> Logs
-        {
-            get
-            {
-                return _logs;
-            }
-        }
-
-        public void UpdateResult(BacktestResult updatedResult)
-        {
-            this.Result = updatedResult;
-        }
-
-        public void AppendLogMessage(string message)
-        {
-            this._logs.Add(message);
-        }
-
-        public void AppendLogMessages(IEnumerable<string> messages)
-        {
-            this._logs.AddRange(messages);
         }
     }
 }

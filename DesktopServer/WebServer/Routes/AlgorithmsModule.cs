@@ -14,7 +14,7 @@ namespace QuantConnect.DesktopServer.WebServer.Routes
 
             Get["/api/algorithms"] = _ =>
             {
-                return _sharedServerData.GetAlgorithms().Select(x => new { name = x }).ToArray();
+                return _sharedServerData.GetAlgorithms().Select(x => new AlgorithmModel(x)).ToArray();
             };
 
             Get["/api/algorithms/{algorithmid}/backtests"] = parameters =>
@@ -24,7 +24,7 @@ namespace QuantConnect.DesktopServer.WebServer.Routes
                 {
                     return HttpStatusCode.BadRequest;
                 }
-                return _sharedServerData.GetBacktests(algorithmClassName);
+                return _sharedServerData.GetBacktests(algorithmClassName).Select(x=> new BacktestModel(x));
             };
 
             Get["/api/algorithms/{algorithmid}/backtests/{backtestid}"] = parameters =>
@@ -39,7 +39,7 @@ namespace QuantConnect.DesktopServer.WebServer.Routes
                 {
                     return HttpStatusCode.BadRequest;                    
                 }
-                return _sharedServerData.GetBacktest(algorithmClassName, backtestId);
+                return new BacktestModel(_sharedServerData.GetBacktest(algorithmClassName, backtestId));
             };
 
             Get["/api/algorithms/{algorithmid}/backtests/{backtestid}/charts"] = parameters =>
@@ -54,7 +54,7 @@ namespace QuantConnect.DesktopServer.WebServer.Routes
                 {
                     return HttpStatusCode.BadRequest;
                 }
-                return new ChartsModel(_sharedServerData.GetBacktestResult(algorithmClassName, backtestId).Charts);
+                return new BacktestChartsDictionaryModel(_sharedServerData.GetBacktestResult(algorithmClassName, backtestId).Charts);
             };
 
             Get["/api/algorithms/{algorithmid}/backtests/{backtestid}/orders"] = parameters =>
@@ -69,7 +69,7 @@ namespace QuantConnect.DesktopServer.WebServer.Routes
                 {
                     return HttpStatusCode.BadRequest;
                 }
-                return _sharedServerData.GetBacktestResult(algorithmClassName, backtestId).Orders;
+                return new BacktestOrdersDictionaryModel(_sharedServerData.GetBacktestResult(algorithmClassName, backtestId).Orders);
             };
 
             Get["/api/algorithms/{algorithmid}/backtests/{backtestid}/statistics"] = parameters =>

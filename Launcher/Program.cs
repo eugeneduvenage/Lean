@@ -92,8 +92,8 @@ namespace QuantConnect.Lean.Launcher
                 throw;
             }
 
-            //if (environment.EndsWith("-desktop"))
-            //{
+            // if (environment.EndsWith("-desktop"))
+            // {
             //    if (OS.IsLinux)
             //    {
             //        var info = new ProcessStartInfo
@@ -114,21 +114,8 @@ namespace QuantConnect.Lean.Launcher
             //        };
             //        Process.Start(info);
             //    }
-            //}
+            // }
 
-            //if (environment.EndsWith("-desktop"))
-            //{
-            //    // For the web version of the Lean Desktop Client launch the webpage rather than the application
-            //    var httpProtocol = Config.Get("desktop-http-protocol", "http");
-            //    var httpHost = Config.Get("desktop-http-host", "localhost");
-            //    var httpPort = Config.Get("desktop-http-port", "1234");
-            //    var url = string.Format("{0}://{1}:{2}", httpProtocol, httpHost, httpPort);
-
-            //    // Once the webserver is in place launch it here first
-
-            //    // Open the default webpage for the Lean Desktop website
-            //    Process.Start(url);
-            //}
 
             // if the job version doesn't match this instance version then we can't process it
             // we also don't want to reprocess redelivered jobs
